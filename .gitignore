@@ -3,6 +3,7 @@
 /.classpath
 /target/
 /.idea/
-.idea/*.*
+/.idea
+/.idea/libraries
 *.iml
 target
