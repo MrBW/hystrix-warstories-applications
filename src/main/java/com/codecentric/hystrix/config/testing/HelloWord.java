@@ -11,7 +11,7 @@ public class HelloWord extends HystrixCommand<String> {
     private final String name;
 
     public HelloWord(String name) {
-        super(HystrixCommandGroupKey.Factory.asKey("ExampleGroup"));
+        super(HystrixCommandGroupKey.Factory.asKey("config-testing"));
         this.name = name;
     }
 
