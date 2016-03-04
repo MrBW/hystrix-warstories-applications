@@ -1,2 +1,4 @@
-# Hystrix Warstories - Configuration Testing
-Simple Project to get a feeling about the configuration options and there effects.
+# Hystrix Warstories Talk
+Spring Boot App to demonstrate Netflix Hystrix.
+
+Code from my Hystrix Warstories Talk @ JAX 2016
