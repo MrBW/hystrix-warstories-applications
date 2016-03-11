@@ -17,7 +17,7 @@ public class Customer {
     private String lastName;
 
     @Column(unique = true)
-    private long accountNumber;
+    private Long accountNumber;
 
     public String getFirstName() {
         return firstName;
@@ -35,11 +35,11 @@ public class Customer {
         this.lastName = lastName;
     }
 
-    public long getAccountNumber() {
+    public Long getAccountNumber() {
         return accountNumber;
     }
 
-    public void setAccountNumber(long accountNumber) {
+    public void setAccountNumber(Long accountNumber) {
         this.accountNumber = accountNumber;
     }
 }

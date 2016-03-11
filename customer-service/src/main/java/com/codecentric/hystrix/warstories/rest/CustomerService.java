@@ -3,8 +3,6 @@ package com.codecentric.hystrix.warstories.rest;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,16 +21,17 @@ import com.codecentric.hystrix.warstories.repository.CustomerRepository;
 @RequestMapping("customer/")
 public class CustomerService {
 
-    @Autowired
+    private ModelMapper modelMapper;
     private CustomerRepository customerRepository;
 
-    private ModelMapper modelMapper;
 
-    @PostConstruct
-    private void init() {
+    @Autowired
+    public CustomerService(CustomerRepository customerRepository) {
+        this.customerRepository = customerRepository;
         modelMapper = new ModelMapper();
         modelMapper.addMappings(new CustomerMapper());
     }
+
 
     @RequestMapping("find/name/{name}")
     public CustomerDTO findCustomerByName(@PathVariable String name) {

@@ -1,4 +1,4 @@
-package com.codecentric.hystrix.warstories;
+package com.codecentric.hystrix.warstories.mapper;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotNull;
@@ -30,7 +30,7 @@ public class CustomerMapperTest {
     @Test
     public void map_Customer_CustomerDTO_Goodcase() throws Exception {
 
-        long accountNumber = 100l;
+        long accountNumber = 100;
         String firstName = "first";
         String lastName = "last";
         Customer customer = new Customer();
