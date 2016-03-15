@@ -94,6 +94,11 @@
             <version>2.1.0</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.codecentric.hystrix.warstories</groupId>
+            <artifactId>shared-components</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
 
 
     </dependencies>

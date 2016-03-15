@@ -8,11 +8,12 @@
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>customer-service</name>
-    <description>Customer Service</description>
+    <name>hystrix-warstories-applications</name>
+    <description>Hystrix warstories applications</description>
 
     <modules>
         <module>customer-service</module>
+        <module>shared-components</module>
     </modules>
 
 </project>

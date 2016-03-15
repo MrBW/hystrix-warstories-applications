@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.codecentric.hystrix.warstories.entities.Customer;
 import com.codecentric.hystrix.warstories.repository.CustomerRepository;
+import com.codecentric.hystrix.warstories.shared.ChaosMonkey;
 
 /**
  * Simulates legacy backend with horrorable response times and exceptions
@@ -18,10 +19,12 @@ public class CustomerLegacyService {
 
     private CustomerRepository customerRepository;
 
-    @Autowired
-    public CustomerLegacyService(CustomerRepository customerRepository) {
-        this.customerRepository = customerRepository;
+    private ChaosMonkey chaosMonkey;
 
+    @Autowired
+    public CustomerLegacyService(CustomerRepository customerRepository, ChaosMonkey chaosMonkey) {
+        this.customerRepository = customerRepository;
+        this.chaosMonkey = chaosMonkey;
     }
 
     public Customer findByLastName(String lastName) {
@@ -36,12 +39,10 @@ public class CustomerLegacyService {
 
         LOGGER.debug("findByAccountNumber via LEGACY");
 
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-
-        }
         Customer customer = customerRepository.findByAccountNumber(accountNumber);
+
+        // Call the chaos monkey
+        chaosMonkey.iWantTrouble();
 
         return customer;
     }
