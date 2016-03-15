@@ -43,6 +43,25 @@
         </dependency>
 
         <dependency>
+            <groupId>com.netflix.archaius</groupId>
+            <artifactId>archaius-core</artifactId>
+            <version>0.7.4</version>
+        </dependency>
+        <dependency>
+            <groupId>com.netflix.archaius</groupId>
+            <artifactId>archaius-etcd</artifactId>
+            <version>0.7.4</version>
+        </dependency>
+        <dependency>
+            <groupId>io.fastjson</groupId>
+            <artifactId>etcd-client</artifactId>
+            <version>0.33</version>
+        </dependency>
+
+
+
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
         </dependency>

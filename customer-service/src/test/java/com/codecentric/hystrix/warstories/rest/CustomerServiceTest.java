@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import com.codecentric.hystrix.warstories.entities.Customer;
+import com.codecentric.hystrix.warstories.legacy.CustomerLegacyService;
 import com.codecentric.hystrix.warstories.repository.CustomerRepository;
 
 /**
@@ -32,11 +33,15 @@ public class CustomerServiceTest {
     @Mock
     private CustomerRepository customerRepositoryMock;
 
+    @Mock
+    private CustomerLegacyService customerLegacyServiceMock;
+
     @Before
     public void setUp() throws Exception {
 
         // Add Mock to RestController
-        mockMvc = MockMvcBuilders.standaloneSetup(new CustomerService(customerRepositoryMock)).build();
+        mockMvc =
+            MockMvcBuilders.standaloneSetup(new CustomerController(customerRepositoryMock, customerLegacyServiceMock)).build();
 
     }
 
