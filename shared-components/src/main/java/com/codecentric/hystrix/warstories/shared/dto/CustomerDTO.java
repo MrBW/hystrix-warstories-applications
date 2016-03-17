@@ -1,4 +1,4 @@
-package com.codecentric.hystrix.warstories.dto;
+package com.codecentric.hystrix.warstories.shared.dto;
 
 /**
  * @author Benjamin Wilms (xd98870)

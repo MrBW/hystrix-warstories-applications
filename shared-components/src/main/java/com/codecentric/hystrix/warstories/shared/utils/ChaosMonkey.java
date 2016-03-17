@@ -1,4 +1,4 @@
-package com.codecentric.hystrix.warstories.shared;
+package com.codecentric.hystrix.warstories.shared.utils;
 
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.logging.Log;

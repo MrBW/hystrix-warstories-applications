@@ -3,10 +3,11 @@ package com.codecentric.hystrix.warstories.mapper;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
+
+import com.codecentric.hystrix.warstories.shared.dto.CustomerDTO;
 import org.junit.Before;
 import org.junit.Test;
 import org.modelmapper.ModelMapper;
-import com.codecentric.hystrix.warstories.dto.CustomerDTO;
 import com.codecentric.hystrix.warstories.entities.Customer;
 import com.codecentric.hystrix.warstories.mapper.CustomerMapper;
 

@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.codecentric.hystrix.warstories.entities.Customer;
 import com.codecentric.hystrix.warstories.repository.CustomerRepository;
-import com.codecentric.hystrix.warstories.shared.ChaosMonkey;
+import com.codecentric.hystrix.warstories.shared.utils.ChaosMonkey;
 
 /**
  * Simulates legacy backend with horrorable response times and exceptions

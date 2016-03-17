@@ -2,6 +2,8 @@ package com.codecentric.hystrix.warstories.rest;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import com.codecentric.hystrix.warstories.shared.dto.CustomerDTO;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.modelmapper.ModelMapper;
@@ -9,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.codecentric.hystrix.warstories.dto.CustomerDTO;
 import com.codecentric.hystrix.warstories.entities.Customer;
 import com.codecentric.hystrix.warstories.legacy.CustomerLegacyService;
 import com.codecentric.hystrix.warstories.mapper.CustomerMapper;

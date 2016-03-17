@@ -1,11 +1,10 @@
-package com.codecentric.hystrix.warstories.config;
+package com.codecentric.hystrix.warstories.shared.configuration;
 
 import java.net.URI;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.boon.etcd.ClientBuilder;
 import org.boon.etcd.Etcd;
-import org.springframework.context.annotation.Configuration;
 import com.netflix.config.ConcurrentCompositeConfiguration;
 import com.netflix.config.ConfigurationManager;
 import com.netflix.config.DynamicWatchedConfiguration;
@@ -14,12 +13,11 @@ import com.netflix.config.source.EtcdConfigurationSource;
 /**
  * @author Benjamin Wilms (xd98870)
  */
-@Configuration
-public class ArchaiuisConfiguration {
+public class ArchaiusConfiguration {
 
-    private static final Log LOGGER = LogFactory.getLog(ArchaiuisConfiguration.class);
+    private static final Log LOGGER = LogFactory.getLog(ArchaiusConfiguration.class);
 
-    public ArchaiuisConfiguration() {
+    public ArchaiusConfiguration() {
         // Config fallback (config.properties) and Etcd configuration
         ConcurrentCompositeConfiguration compositeConfig = new ConcurrentCompositeConfiguration();
 

@@ -1,8 +1,7 @@
 package com.codecentric.hystrix.warstories.mapper;
 
+import com.codecentric.hystrix.warstories.shared.dto.CustomerDTO;
 import org.modelmapper.PropertyMap;
-
-import com.codecentric.hystrix.warstories.dto.CustomerDTO;
 import com.codecentric.hystrix.warstories.entities.Customer;
 
 /**
