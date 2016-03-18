@@ -4,6 +4,7 @@ import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Component;
+import com.netflix.config.DynamicLongProperty;
 
 /**
  * @author Benjamin Wilms (xd98870)
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Component;
 public class ChaosMonkey {
 
     private static final Log LOGGER = LogFactory.getLog(ChaosMonkey.class);
+
+    private DynamicLongProperty threadTimeout = new DynamicLongProperty("chaosmonkey.timeout", 3000);
 
     public void iWantTrouble() {
         // Trouble?
@@ -39,7 +42,7 @@ public class ChaosMonkey {
     private void generateTimeout() {
 
         try {
-            Thread.sleep(3000);
+            Thread.sleep(threadTimeout.get());
         } catch (InterruptedException e) {
             LOGGER.debug("Thread sleep interrupt exception");
         }

@@ -38,8 +38,6 @@ public class CustomerController {
     private DynamicBooleanProperty useLegacySystem =
         DynamicPropertyFactory.getInstance().getBooleanProperty("legacy.systems.active", false);
 
-    private DynamicStringProperty testValueChange = DynamicPropertyFactory.getInstance().getStringProperty("test", "default");
-
     @Autowired
     public CustomerController(CustomerRepository customerRepository, CustomerLegacyService customerLegacyService) {
         this.customerRepository = customerRepository;
