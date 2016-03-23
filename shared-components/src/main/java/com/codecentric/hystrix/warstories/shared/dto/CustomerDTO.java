@@ -11,6 +11,8 @@ public class CustomerDTO {
 
     private String firstName;
 
+    private boolean cached = false; // default
+
     public CustomerDTO(Long accountNumber, String firstName, String name) {
         this.accountNumber = accountNumber;
         this.firstName = firstName;
@@ -43,5 +45,13 @@ public class CustomerDTO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isCached() {
+        return cached;
+    }
+
+    public void setCached(boolean cached) {
+        this.cached = cached;
     }
 }

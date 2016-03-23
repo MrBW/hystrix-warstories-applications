@@ -8,10 +8,11 @@ import com.codecentric.hystrix.warstories.entities.Customer;
  */
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
-    Customer findByLastName(String lastName);
-
-    Customer findByFirstName(String firstName);
-
+    /***
+     * Returns Customer object searched by account number
+     * @param accountNumber
+     * @return Customer with account number
+     */
     Customer findByAccountNumber(long accountNumber);
 
 }

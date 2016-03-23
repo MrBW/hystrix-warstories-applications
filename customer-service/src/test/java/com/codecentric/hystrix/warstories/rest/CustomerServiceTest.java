@@ -2,7 +2,7 @@ package com.codecentric.hystrix.warstories.rest;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -18,9 +18,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import com.codecentric.hystrix.warstories.entities.Customer;
-import com.codecentric.hystrix.warstories.legacy.CustomerLegacyService;
-import com.codecentric.hystrix.warstories.repository.CustomerRepository;
+import com.codecentric.hystrix.warstories.service.CustomerService;
+import com.codecentric.hystrix.warstories.shared.dto.CustomerDTO;
 
 /**
  * @author Benjamin Wilms (xd98870)
@@ -31,17 +30,13 @@ public class CustomerServiceTest {
     private MockMvc mockMvc;
 
     @Mock
-    private CustomerRepository customerRepositoryMock;
-
-    @Mock
-    private CustomerLegacyService customerLegacyServiceMock;
+    private CustomerService customerService;
 
     @Before
     public void setUp() throws Exception {
 
         // Add Mock to RestController
-        mockMvc =
-            MockMvcBuilders.standaloneSetup(new CustomerController(customerRepositoryMock, customerLegacyServiceMock)).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(new CustomerController(customerService)).build();
 
     }
 
@@ -53,25 +48,22 @@ public class CustomerServiceTest {
     @Test
     public void findCustomerByName_Goodcase() throws Exception {
 
-        Customer customer = createCustomer();
+        CustomerDTO customer = createCustomer();
 
-        when(customerRepositoryMock.findByLastName(anyString())).thenReturn(customer);
+        when(customerService.findCustomerByAccountNumber(anyLong())).thenReturn(customer);
 
         //@formatter:off
-        mockMvc.perform(MockMvcRequestBuilders.get("/customer/find/name/Meier")).andDo(print())
+        mockMvc.perform(MockMvcRequestBuilders.get("/customer/find/accountnumber/4711")).andDo(print())
                 .andExpect(status().isOk())
                .andExpect(jsonPath("$.accountNumber",is(notNullValue())))
-               .andExpect(jsonPath("$.name",is(customer.getLastName())))
+               .andExpect(jsonPath("$.name",is(customer.getName())))
                .andExpect(jsonPath("$.firstName",is(customer.getFirstName())));
         //@formatter:on
 
     }
 
-    private Customer createCustomer() {
-        Customer customer = new Customer();
-        customer.setAccountNumber(100l);
-        customer.setLastName("last");
-        customer.setFirstName("first");
+    private CustomerDTO createCustomer() {
+        CustomerDTO customer = new CustomerDTO(100l, "firstname", "lastname");
 
         return customer;
     }
