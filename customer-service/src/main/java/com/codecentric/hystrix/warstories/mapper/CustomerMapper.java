@@ -17,4 +17,4 @@ public class CustomerMapper extends PropertyMap<Customer, CustomerDTO> {
         map().setCached(false); // default value
 
     }
-};
+}

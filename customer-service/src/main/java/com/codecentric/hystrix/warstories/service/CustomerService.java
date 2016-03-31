@@ -14,6 +14,7 @@ import com.codecentric.hystrix.warstories.shared.dto.CustomerDTO;
 import com.codecentric.hystrix.warstories.shared.utils.ChaosMonkey;
 import com.netflix.config.DynamicBooleanProperty;
 import com.netflix.config.DynamicPropertyFactory;
+import com.netflix.config.DynamicStringProperty;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
 /**
@@ -37,6 +38,7 @@ public class CustomerService {
     private DynamicBooleanProperty chaosMonkeyActive =
         DynamicPropertyFactory.getInstance().getBooleanProperty("chaos.monkey.active", false);
 
+
     @Autowired
     public CustomerService(CustomerRepository customerRepository, ChaosMonkey chaosMonkey) {
         this.customerRepository = customerRepository;
@@ -49,6 +51,7 @@ public class CustomerService {
 
         // init fallback cache used by hystrix fallback
         initFallbackCache();
+
     }
 
     private void initFallbackCache() {
@@ -70,7 +73,7 @@ public class CustomerService {
 
     }
 
-    @HystrixCommand(fallbackMethod = "fallbackCache", commandKey = "CustomerServiceKey")
+    @HystrixCommand(fallbackMethod = "fallbackCache", commandKey = "CustomerServiceCmdKey", threadPoolKey = "CustomerServiceThreadPool")
     public CustomerDTO findCustomerByAccountNumber(long accountNumber) {
 
         Customer customer;

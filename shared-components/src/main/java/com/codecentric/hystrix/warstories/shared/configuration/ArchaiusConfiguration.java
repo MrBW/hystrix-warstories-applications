@@ -39,6 +39,7 @@ public class ArchaiusConfiguration {
 
         ConfigurationManager.install(compositeConfig);
 
+
     }
 
     private DynamicWatchedConfiguration createEtcdConfiguration() {

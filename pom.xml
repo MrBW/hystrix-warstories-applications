@@ -34,6 +34,7 @@
         <module>customer-service</module>
         <module>shared-components</module>
         <module>connote-service</module>
+        <module>transport-service</module>
     </modules>
 
     <dependencyManagement>
