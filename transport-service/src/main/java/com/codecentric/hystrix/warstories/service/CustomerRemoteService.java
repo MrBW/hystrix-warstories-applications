@@ -20,7 +20,7 @@ public class CustomerRemoteService {
     private DynamicStringProperty customerServiceAddress = DynamicPropertyFactory.getInstance()
         .getStringProperty("service.address.customer", "http://localhost:8080/customer/find/accountnumber/");
 
-    @HystrixCommand(commandKey = "CustomerClientCmdKey", threadPoolKey = "CustomerClientThreadPool")
+   @HystrixCommand(commandKey = "CustomerClientCmdKey", threadPoolKey = "CustomerClientThreadPool")
     public CustomerDTO findCustomer(long accountnumber) {
         Assert.notNull(accountnumber);
         Assert.hasText(customerServiceAddress.get());
