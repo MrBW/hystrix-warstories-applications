@@ -1,6 +1,9 @@
 package com.codecentric.hystrix.warstories.service;
 
 import java.net.URI;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -16,12 +19,16 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 @Service
 public class ConnoteRemoteService {
 
+    private static final Log LOGGER = LogFactory.getLog(ConnoteRemoteService.class);
+
     private DynamicStringProperty connoteServiceAddress = DynamicPropertyFactory.getInstance()
-        .getStringProperty("service.address.connote", "http://localhost:8080/connote/create");
+        .getStringProperty("service.address.connote", "http://connote-service:8080/connote/create");
 
     @HystrixCommand(commandKey = "ConnoteClientCmdKey", threadPoolKey = "ConnoteClientThreadPool")
     public ConnoteDTO createConnote() {
         Assert.hasText(connoteServiceAddress.get());
+
+        LOGGER.debug("Calling Connote Remote Service: " + connoteServiceAddress.get());
 
         RestTemplate client = new RestTemplate();
         URI uri = URI.create(connoteServiceAddress.get());

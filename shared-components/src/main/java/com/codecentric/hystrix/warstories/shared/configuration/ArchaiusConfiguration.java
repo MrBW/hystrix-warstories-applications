@@ -21,7 +21,7 @@ public class ArchaiusConfiguration {
     private static final Log LOGGER = LogFactory.getLog(ArchaiusConfiguration.class);
 
     private DynamicStringProperty etcdServerPort =
-        DynamicPropertyFactory.getInstance().getStringProperty("server.etcd.baseurl", "http://192.168.99.100:2379");
+        DynamicPropertyFactory.getInstance().getStringProperty("server.etcd.baseurl", "http://etcd:2379");
 
     public ArchaiusConfiguration() {
 

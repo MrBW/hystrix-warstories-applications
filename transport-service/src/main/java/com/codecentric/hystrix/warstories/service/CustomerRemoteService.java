@@ -1,6 +1,8 @@
 package com.codecentric.hystrix.warstories.service;
 
 import java.net.URI;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -17,13 +19,17 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 @Service
 public class CustomerRemoteService {
 
-    private DynamicStringProperty customerServiceAddress = DynamicPropertyFactory.getInstance()
-        .getStringProperty("service.address.customer", "http://localhost:8080/customer/find/accountnumber/");
+    private static final Log LOGGER = LogFactory.getLog(CustomerRemoteService.class);
 
-   @HystrixCommand(commandKey = "CustomerClientCmdKey", threadPoolKey = "CustomerClientThreadPool")
+    private DynamicStringProperty customerServiceAddress = DynamicPropertyFactory.getInstance()
+        .getStringProperty("service.address.customer", "http://customer-service:8080/customer/find/accountnumber/");
+
+    @HystrixCommand(commandKey = "CustomerClientCmdKey", threadPoolKey = "CustomerClientThreadPool")
     public CustomerDTO findCustomer(long accountnumber) {
         Assert.notNull(accountnumber);
         Assert.hasText(customerServiceAddress.get());
+
+        LOGGER.debug("Calling Connote Remote Service: " + customerServiceAddress.get());
 
         RestTemplate client = new RestTemplate();
         URI uri = URI.create(customerServiceAddress.get() + accountnumber);
