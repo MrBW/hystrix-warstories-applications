@@ -24,7 +24,7 @@ public class CustomerRemoteService {
     private DynamicStringProperty customerServiceAddress = DynamicPropertyFactory.getInstance()
         .getStringProperty("service.address.customer", "http://customer-service:8080/customer/find/accountnumber/");
 
-    @HystrixCommand(commandKey = "CustomerClientCmdKey", threadPoolKey = "CustomerClientThreadPool")
+    @HystrixCommand(commandKey = "CustomerClientCmdKey", threadPoolKey = "CustomerClientThreadPool", fallbackMethod = "fallback")
     public CustomerDTO findCustomer(long accountnumber) {
         Assert.notNull(accountnumber);
         Assert.hasText(customerServiceAddress.get());
@@ -35,6 +35,27 @@ public class CustomerRemoteService {
         URI uri = URI.create(customerServiceAddress.get() + accountnumber);
         ResponseEntity<CustomerDTO> dtoResponseEntity = client.getForEntity(uri, CustomerDTO.class);
 
-        return dtoResponseEntity.getBody();
+        if (dtoResponseEntity.getStatusCode().is2xxSuccessful())
+            return dtoResponseEntity.getBody();
+        else {
+            CustomerDTO fallbackDTO = new CustomerDTO();
+            fallbackDTO.setFallback(false);
+            fallbackDTO.setErrorMsg("HTTP Status Code: " + dtoResponseEntity.getStatusCode());
+            return fallbackDTO;
+        }
+    }
+
+    /***
+     * @return Fallback DTO
+     */
+    public CustomerDTO fallback(long accountnumber, Throwable throwable) {
+
+        LOGGER.error("Hystrix Fallback, cause: " + throwable);
+
+        CustomerDTO fallbackDTO = new CustomerDTO();
+        fallbackDTO.setFallback(true);
+        fallbackDTO.setErrorMsg("Transport > Customer: " + throwable.getMessage());
+
+        return fallbackDTO;
     }
 }

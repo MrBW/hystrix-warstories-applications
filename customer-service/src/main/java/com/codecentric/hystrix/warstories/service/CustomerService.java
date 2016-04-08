@@ -8,13 +8,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.codecentric.hystrix.warstories.entities.Customer;
-import com.codecentric.hystrix.warstories.mapper.CustomerMapper;
 import com.codecentric.hystrix.warstories.repository.CustomerRepository;
 import com.codecentric.hystrix.warstories.shared.dto.CustomerDTO;
 import com.codecentric.hystrix.warstories.shared.utils.ChaosMonkey;
 import com.netflix.config.DynamicBooleanProperty;
 import com.netflix.config.DynamicPropertyFactory;
-import com.netflix.config.DynamicStringProperty;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
 /**
@@ -38,16 +36,12 @@ public class CustomerService {
     private DynamicBooleanProperty chaosMonkeyActive =
         DynamicPropertyFactory.getInstance().getBooleanProperty("chaos.monkey.active", false);
 
-
     @Autowired
-    public CustomerService(CustomerRepository customerRepository, ChaosMonkey chaosMonkey) {
+    public CustomerService(CustomerRepository customerRepository, ChaosMonkey chaosMonkey, ModelMapper modelMapper) {
         this.customerRepository = customerRepository;
         this.customerRepository = customerRepository;
         this.chaosMonkey = chaosMonkey;
-
-        // Init ModelMapper
-        modelMapper = new ModelMapper();
-        modelMapper.addMappings(new CustomerMapper());
+        this.modelMapper = modelMapper;
 
         // init fallback cache used by hystrix fallback
         initFallbackCache();
@@ -64,7 +58,7 @@ public class CustomerService {
             CustomerDTO dto = modelMapper.map(customer, CustomerDTO.class);
 
             // marked as cached object
-            dto.setCached(true);
+            dto.setFallback(true);
 
             fallbackCache.put(dto.getAccountNumber(), dto);
         }
@@ -102,9 +96,19 @@ public class CustomerService {
      * @param accountNumber
      * @return
      */
-    private CustomerDTO fallbackCache(long accountNumber) {
+    private CustomerDTO fallbackCache(long accountNumber, Throwable throwable) {
+        LOGGER.error("Hystrix Fallback, cause: " + throwable);
 
-        return fallbackCache.get(accountNumber);
+        CustomerDTO customerDTO = fallbackCache.get(accountNumber);
+
+        String msg = "Customer > Legacy: ";
+
+        if (throwable != null)
+            customerDTO.setErrorMsg(msg + throwable.getMessage());
+        else
+            customerDTO.setErrorMsg(msg);
+
+        return customerDTO;
 
     }
 }

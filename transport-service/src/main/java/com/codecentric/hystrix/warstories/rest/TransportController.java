@@ -53,5 +53,4 @@ public class TransportController {
         return new ResponseEntity(shippmentDTO, HttpStatus.OK);
 
     }
-
 }

@@ -1,10 +1,12 @@
 package com.codecentric.hystrix.warstories.shared.dto;
 
 import com.codecentric.hystrix.warstories.shared.enums.AdressType;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
  * @author Benjamin Wilms (xd98870)
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class AdressDTO {
 
     public AdressType adressType;

@@ -1,17 +1,18 @@
 package com.codecentric.hystrix.warstories.shared.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 /**
  * @author Benjamin Wilms (xd98870)
  */
-public class CustomerDTO {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class CustomerDTO extends FallbackDTO {
 
     private Long accountNumber;
 
     private String name;
 
     private String firstName;
-
-    private boolean cached = false; // default
 
     public CustomerDTO(Long accountNumber, String firstName, String name) {
         this.accountNumber = accountNumber;
@@ -20,7 +21,8 @@ public class CustomerDTO {
     }
 
     // JSON Default
-    protected CustomerDTO() {
+    public CustomerDTO() {
+        super();
     }
 
     public Long getAccountNumber() {
@@ -47,11 +49,4 @@ public class CustomerDTO {
         this.name = name;
     }
 
-    public boolean isCached() {
-        return cached;
-    }
-
-    public void setCached(boolean cached) {
-        this.cached = cached;
-    }
 }

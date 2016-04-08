@@ -1,7 +1,6 @@
 package com.codecentric.hystrix.warstories.service;
 
 import java.net.URI;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +23,7 @@ public class ConnoteRemoteService {
     private DynamicStringProperty connoteServiceAddress = DynamicPropertyFactory.getInstance()
         .getStringProperty("service.address.connote", "http://connote-service:8080/connote/create");
 
-    @HystrixCommand(commandKey = "ConnoteClientCmdKey", threadPoolKey = "ConnoteClientThreadPool")
+    @HystrixCommand(commandKey = "ConnoteClientCmdKey", threadPoolKey = "ConnoteClientThreadPool", fallbackMethod = "fallback")
     public ConnoteDTO createConnote() {
         Assert.hasText(connoteServiceAddress.get());
 
@@ -34,6 +33,27 @@ public class ConnoteRemoteService {
         URI uri = URI.create(connoteServiceAddress.get());
         ResponseEntity<ConnoteDTO> dtoResponseEntity = client.getForEntity(uri, ConnoteDTO.class);
 
-        return dtoResponseEntity.getBody();
+        if (dtoResponseEntity.getStatusCode().is2xxSuccessful())
+            return dtoResponseEntity.getBody();
+        else {
+            ConnoteDTO fallbackDTO = new ConnoteDTO();
+            fallbackDTO.setFallback(false);
+            fallbackDTO.setErrorMsg("HTTP Status Code: " + dtoResponseEntity.getStatusCode());
+            return fallbackDTO;
+        }
+    }
+
+    /***
+     * @return HTTP Status 503
+     */
+    public ConnoteDTO fallback(Throwable throwable) {
+
+        LOGGER.error("Hystrix Fallback, cause: " + throwable);
+
+        ConnoteDTO fallbackDTO = new ConnoteDTO();
+        fallbackDTO.setFallback(true);
+        fallbackDTO.setErrorMsg("Transport > Connote: " + throwable.getMessage());
+
+        return fallbackDTO;
     }
 }
