@@ -12,7 +12,9 @@ import org.apache.log4j.LogManager;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -22,6 +24,7 @@ import com.codecentric.hystrix.warstories.shared.dto.CustomerDTO;
 /**
  * @author Benjamin Wilms (xd98870)
  */
+@RunWith(MockitoJUnitRunner.class)
 public class CustomerControllerTest {
 
     private MockMvc mockMvc;

@@ -1,9 +1,6 @@
 package com.codecentric.hystrix.warstories.shared.configuration;
 
 import java.net.URI;
-
-import org.apache.commons.configuration.AbstractConfiguration;
-import org.apache.commons.configuration.BaseConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.boon.etcd.ClientBuilder;
@@ -21,7 +18,7 @@ public class ArchaiusConfiguration {
     private static final Log LOGGER = LogFactory.getLog(ArchaiusConfiguration.class);
 
     private DynamicStringProperty etcdServerPort =
-        DynamicPropertyFactory.getInstance().getStringProperty("server.etcd.baseurl", "http://etcd:2379");
+        DynamicPropertyFactory.getInstance().getStringProperty("server.etcd.baseurl", "http://192.168.99.100:2379");
 
     public ArchaiusConfiguration() {
 
@@ -36,15 +33,19 @@ public class ArchaiusConfiguration {
 
         if (etcdConfiguration != null)
             compositeConfig.addConfiguration(etcdConfiguration, "etcd dynamic override configuration");
+        else {
+            LOGGER.debug(LOGGER.isDebugEnabled() ? "etcdConfigurartion == null" : null);
+        }
 
         ConfigurationManager.install(compositeConfig);
-
 
     }
 
     private DynamicWatchedConfiguration createEtcdConfiguration() {
         try {
             Etcd etcd = createEtcdClient();
+
+            LOGGER.debug(LOGGER.isDebugEnabled() ? "Etcd Client created: " + (etcd != null) : null);
 
             EtcdConfigurationSource etcdConfigurationSource = new EtcdConfigurationSource(etcd, "/hystrix/");
             DynamicWatchedConfiguration etcdConfiguration = new DynamicWatchedConfiguration(etcdConfigurationSource);
@@ -61,7 +62,7 @@ public class ArchaiusConfiguration {
      * Create and initials etcd client
      * @return
      */
-    public Etcd createEtcdClient() {
+    private Etcd createEtcdClient() {
         LOGGER.debug(LOGGER.isDebugEnabled() ? "Etcd server baseurl: " + etcdServerPort.get() : null);
 
         ClientBuilder clientBuilder;

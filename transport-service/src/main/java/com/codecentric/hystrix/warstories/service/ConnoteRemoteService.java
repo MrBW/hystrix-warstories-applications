@@ -44,16 +44,18 @@ public class ConnoteRemoteService {
     }
 
     /***
-     * @return HTTP Status 503
+     * @return ConnoteDTO
      */
     public ConnoteDTO fallback(Throwable throwable) {
 
-        LOGGER.error("Hystrix Fallback, cause: " + throwable);
-
         ConnoteDTO fallbackDTO = new ConnoteDTO();
         fallbackDTO.setFallback(true);
-        fallbackDTO.setErrorMsg("Transport > Connote: " + throwable.getMessage());
 
+        String msg = "Transport > Connote: ";
+        if (throwable != null)
+            fallbackDTO.setErrorMsg(msg + throwable.getMessage());
+        else
+            fallbackDTO.setErrorMsg(msg + "Timeout");
         return fallbackDTO;
     }
 }

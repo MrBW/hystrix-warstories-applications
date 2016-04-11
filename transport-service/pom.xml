@@ -7,7 +7,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>customer-service</name>
+    <name>transport-service</name>
     <description>Transport Service</description>
 
     <parent>
@@ -15,11 +15,6 @@
         <groupId>com.codecentric.hystrix.warstories</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>1.8</java.version>
-    </properties>
 
     <dependencies>
         <dependency>

@@ -83,12 +83,12 @@ public class ConnoteService {
         ConnoteDTO dto = new ConnoteDTO();
         dto.setFallback(true);
 
-        String msg = "Connote > Legacy:";
+        String msg = "Connote > Legacy: ";
 
         if (throwable != null)
             dto.setErrorMsg(msg + throwable.getMessage());
         else
-            dto.setErrorMsg(msg);
+            dto.setErrorMsg(msg + "Timeout");
 
         dto.setConnote(createRandomConnote("99"));
 

@@ -88,7 +88,6 @@ public class CustomerService {
             customer = customerRepository.findByAccountNumber(accountNumber);
         }
         return customer == null ? null : modelMapper.map(customer, CustomerDTO.class);
-
     }
 
     /***
@@ -97,7 +96,6 @@ public class CustomerService {
      * @return
      */
     private CustomerDTO fallbackCache(long accountNumber, Throwable throwable) {
-        LOGGER.error("Hystrix Fallback, cause: " + throwable);
 
         CustomerDTO customerDTO = fallbackCache.get(accountNumber);
 
@@ -106,7 +104,7 @@ public class CustomerService {
         if (throwable != null)
             customerDTO.setErrorMsg(msg + throwable.getMessage());
         else
-            customerDTO.setErrorMsg(msg);
+            customerDTO.setErrorMsg(msg + "Timeout");
 
         return customerDTO;
 

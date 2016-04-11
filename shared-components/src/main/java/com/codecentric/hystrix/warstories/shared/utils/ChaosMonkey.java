@@ -14,7 +14,7 @@ public class ChaosMonkey {
 
     private static final Log LOGGER = LogFactory.getLog(ChaosMonkey.class);
 
-    private DynamicLongProperty threadTimeout = new DynamicLongProperty("chaosmonkey.timeout", 3000);
+    private DynamicLongProperty threadTimeout = new DynamicLongProperty("chaos.monkey.timeout", 3000);
 
     public void iWantTrouble() {
         // Trouble?
@@ -37,14 +37,14 @@ public class ChaosMonkey {
     }
 
     /***
-     * Generates a timeout exception, hard codeed 3000ms
+     * Generates a timeout exception, 3000ms
      */
     private void generateTimeout() {
 
         try {
             Thread.sleep(threadTimeout.get());
         } catch (InterruptedException e) {
-            LOGGER.debug("Thread sleep interrupt exception");
+            // do nothing, hystrix tries to interrupt
         }
     }
 }

@@ -44,7 +44,7 @@ public class TransportController {
             customer = customerRemoteService.findCustomer(accountnumber);
 
         } catch (Exception e) {
-            String msg = "Unable to create shippment";
+            String msg = "Unable to create shippment: " + e.getMessage();
             LOGGER.error(msg, e);
             return new ResponseEntity(msg, HttpStatus.INTERNAL_SERVER_ERROR);
         }

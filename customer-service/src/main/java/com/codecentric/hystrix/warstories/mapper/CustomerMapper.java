@@ -15,7 +15,7 @@ public class CustomerMapper extends PropertyMap<Customer, CustomerDTO> {
         map().setName(source.getLastName());
         map().setAccountNumber(source.getAccountNumber());
         map().setFallback(false);
-        map().setErrorMsg("");
+        map().setErrorMsg(null);
 
     }
 }

@@ -50,12 +50,14 @@ public class CustomerRemoteService {
      */
     public CustomerDTO fallback(long accountnumber, Throwable throwable) {
 
-        LOGGER.error("Hystrix Fallback, cause: " + throwable);
-
         CustomerDTO fallbackDTO = new CustomerDTO();
         fallbackDTO.setFallback(true);
-        fallbackDTO.setErrorMsg("Transport > Customer: " + throwable.getMessage());
 
+        String msg = "Transport > Customer: ";
+        if (throwable != null)
+            fallbackDTO.setErrorMsg(msg + throwable.getMessage());
+        else
+            fallbackDTO.setErrorMsg(msg + "Timeout");
         return fallbackDTO;
     }
 }
