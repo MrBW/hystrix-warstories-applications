@@ -6,7 +6,9 @@ echo --- remove hystrix keys from etcd server ---
 curl -L -X DELETE $baseurl?recursive=true
 
 echo --- loading hystrix properties with default values ---
-curl -L -X PUT $baseurl/server.etcd.baseurl -d value="http://etcd:2379"
+#curl -L -X PUT $baseurl/server.etcd.baseurl -d value="http://etcd:2379"
+curl -L -X PUT $baseurl/etcd.status -d value="value from etcd"
+
 # Chaos Monkey
 curl -L -X PUT $baseurl/chaos.monkey.active -d value="false"
 curl -L -X PUT $baseurl/chaos.monkey.timeout -d value="3000"
