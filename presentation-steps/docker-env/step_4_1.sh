@@ -1,6 +1,6 @@
 #!/bin/bash
 
-baseurl=http://192.168.99.100:2379/v2/keys/hystrix
+baseurl=http://0.0.0.0:2379/v2/keys/hystrix
 
 # Default Service URLs
 clear
