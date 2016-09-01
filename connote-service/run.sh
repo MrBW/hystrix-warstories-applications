@@ -1,11 +1,11 @@
 #!/bin/bash
-echo check etcd service status
-while ! curl http://192.168.99.100:2379/v2/keys/hystrix
+echo "check etcd service status"
+while ! curl $ETCD_SERIVCE
 do
-  echo "$(date) - still trying"
+  echo "### $(date) - still trying ###"
   sleep 1
 done
-echo "$(date) - connected successfully"
+echo "### $(date) - connected successfully ###"
 
 set -e
 

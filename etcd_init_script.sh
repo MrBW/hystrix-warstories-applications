@@ -1,6 +1,6 @@
 #!/bin/bash
 
-baseurl=http://192.168.99.100:2379/v2/keys/hystrix
+baseurl=http://localhost:2379/v2/keys/hystrix
 
 echo --- remove hystrix keys from etcd server ---
 curl -L -X DELETE $baseurl?recursive=true
@@ -14,8 +14,8 @@ curl -L -X PUT $baseurl/chaos.monkey.active -d value="false"
 curl -L -X PUT $baseurl/chaos.monkey.timeout -d value="3000"
 
 # Default Service URLs, invalid at startup
-curl -L -X PUT $baseurl/service.address.customer -d value="http://customer-service-invalid:8080/customer/find/accountnumber/"
-curl -L -X PUT $baseurl/service.address.connote -d value="http://connote-service-invalid:8080/connote/create"
+curl -L -X PUT $baseurl/service.address.customer -d value="http://customer-service-invalid/customer/find/accountnumber/"
+curl -L -X PUT $baseurl/service.address.connote -d value="http://connote-service-invalid/connote/create"
 
 # Transport Service Hystrix Timeouts
 curl -L -X PUT $baseurl/hystrix.command.ConnoteClientCmdKey.execution.isolation.thread.timeoutInMilliseconds -d value="1000"
