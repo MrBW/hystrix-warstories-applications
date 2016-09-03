@@ -3,11 +3,13 @@ Spring Boot App to demonstrate Netflix Hystrix.
 
 1.) mvn clean package
 
-2.) docker-compose up
+2.) docker-compose build
 
-3.) sh etcd_init_script.sh
+3.) docker-compose up
 
-4.) docker-compose restart
+4.) sh etcd_init_script.sh
+
+5.) docker-compose restart
 _
 
 

@@ -27,4 +27,13 @@ public class FallbackDTO {
     public void setFallback(boolean fallback) {
         this.fallback = fallback;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("FallbackDTO{");
+        sb.append("errorMsg='").append(errorMsg).append('\'');
+        sb.append(", fallback=").append(fallback);
+        sb.append('}');
+        return sb.toString();
+    }
 }

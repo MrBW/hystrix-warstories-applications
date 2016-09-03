@@ -17,4 +17,14 @@ public class ConnoteDTO extends FallbackDTO {
     public void setConnote(Long connote) {
         this.connote = connote;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("ConnoteDTO{");
+        sb.append("connote=").append(connote);
+        sb.append("fallback=").append(this.isFallback());
+        sb.append("fallback-msg=").append(this.getErrorMsg());
+        sb.append('}');
+        return sb.toString();
+    }
 }

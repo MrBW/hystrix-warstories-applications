@@ -68,4 +68,16 @@ public class AdressDTO {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override public String toString() {
+        final StringBuilder sb = new StringBuilder("AdressDTO{");
+        sb.append("adressType=").append(adressType);
+        sb.append(", country='").append(country).append('\'');
+        sb.append(", city='").append(city).append('\'');
+        sb.append(", street='").append(street).append('\'');
+        sb.append(", postcode='").append(postcode).append('\'');
+        sb.append(", name='").append(name).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }
