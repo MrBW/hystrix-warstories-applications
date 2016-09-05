@@ -37,7 +37,7 @@ public class ConnoteService {
     private Map<Long, ConnoteDTO> fallbackCache = Collections.synchronizedMap(new HashMap<Long, ConnoteDTO>());
 
     // use simulated legacy system?
-    private DynamicBooleanProperty chaosMonkeyActive =
+    private static final DynamicBooleanProperty chaosMonkeyActive =
         DynamicPropertyFactory.getInstance().getBooleanProperty("chaos.monkey.active", false);
 
     @Autowired
@@ -55,12 +55,15 @@ public class ConnoteService {
 
         Long connote = createRandomConnote("33");
 
-        LOGGER.debug(LOGGER.isDebugEnabled() ? "Chaos Monkey is active: " + chaosMonkeyActive.get() : null);
-
         if (chaosMonkeyActive.get()) {
+            LOGGER.debug(LOGGER.isDebugEnabled()
+                ? "Chaos Monkey is active, property update timestamp: " + chaosMonkeyActive.getChangedTimestamp() : null);
 
             // call the monkey to get in trouble
             chaosMonkey.iWantTrouble();
+        } else {
+            LOGGER.debug(LOGGER.isDebugEnabled()
+                ? "Chaos Monkey is inactive, property update timestamp: " + chaosMonkeyActive.getChangedTimestamp() : null);
         }
         // Create new connote object in db
         Connote con = new Connote();

@@ -33,7 +33,7 @@ public class CustomerService {
     private HashMap<Long, CustomerDTO> fallbackCache = new HashMap<>();
 
     // use simulated legacy system?
-    private DynamicBooleanProperty chaosMonkeyActive =
+    private static final DynamicBooleanProperty chaosMonkeyActive =
         DynamicPropertyFactory.getInstance().getBooleanProperty("chaos.monkey.active", false);
 
     @Autowired

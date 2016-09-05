@@ -6,14 +6,12 @@ import org.apache.commons.logging.LogFactory;
 import org.boon.etcd.ClientBuilder;
 import org.boon.etcd.Etcd;
 import org.springframework.context.annotation.Configuration;
-import com.netflix.config.AbstractPollingScheduler;
 import com.netflix.config.ClasspathPropertiesConfiguration;
 import com.netflix.config.ConcurrentCompositeConfiguration;
 import com.netflix.config.ConfigurationManager;
 import com.netflix.config.DynamicPropertyFactory;
 import com.netflix.config.DynamicStringProperty;
 import com.netflix.config.DynamicWatchedConfiguration;
-import com.netflix.config.FixedDelayPollingScheduler;
 import com.netflix.config.source.EtcdConfigurationSource;
 
 /**
@@ -58,11 +56,8 @@ public class ArchaiusConfiguration {
 
             LOGGER.debug(LOGGER.isDebugEnabled() ? "Etcd Client created: " + (etcd != null) : null);
 
-            AbstractPollingScheduler scheduler = new FixedDelayPollingScheduler();
             EtcdConfigurationSource etcdConfigurationSource = new EtcdConfigurationSource(etcd, "/hystrix/");
-            DynamicWatchedConfiguration etcdConfiguration = new DynamicWatchedConfiguration(etcdConfigurationSource);
-
-            return etcdConfiguration;
+            return new DynamicWatchedConfiguration(etcdConfigurationSource);
 
         } catch (Exception e) {
             LOGGER.error("CoresOS ETCD Service not reachable, Server: " + etcdServerPort, e);
