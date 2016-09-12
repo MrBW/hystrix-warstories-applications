@@ -8,7 +8,14 @@ import org.boon.etcd.ClientBuilder;
 import org.boon.etcd.Etcd;
 import org.springframework.context.annotation.Configuration;
 
-import com.netflix.config.*;
+import com.netflix.config.AbstractPollingScheduler;
+import com.netflix.config.ClasspathPropertiesConfiguration;
+import com.netflix.config.ConcurrentCompositeConfiguration;
+import com.netflix.config.ConfigurationManager;
+import com.netflix.config.DynamicPropertyFactory;
+import com.netflix.config.DynamicStringProperty;
+import com.netflix.config.DynamicWatchedConfiguration;
+import com.netflix.config.FixedDelayPollingScheduler;
 import com.netflix.config.source.EtcdConfigurationSource;
 
 /**
@@ -20,11 +27,13 @@ public class ArchaiusConfiguration {
     private static final Log LOGGER = LogFactory.getLog(ArchaiusConfiguration.class);
 
     private DynamicStringProperty etcdServerPort =
-            DynamicPropertyFactory.getInstance().getStringProperty("server.etcd.baseurl", "http://192.168.99.100:2379");
+        DynamicPropertyFactory.getInstance().getStringProperty("server.etcd.baseurl", "http://etcd:2379");
 
     public ArchaiusConfiguration() {
 
         LOGGER.debug(LOGGER.isDebugEnabled() ? "### Archaius init: " + this.toString() : null);
+
+        AbstractPollingScheduler scheduler = new FixedDelayPollingScheduler();
 
         // Config fallback (config.properties) and Etcd configuration
         ConcurrentCompositeConfiguration compositeConfig = new ConcurrentCompositeConfiguration();
@@ -40,12 +49,11 @@ public class ArchaiusConfiguration {
         else {
             LOGGER.debug(LOGGER.isDebugEnabled() ? "etcdConfigurartion == null" : null);
         }
+
         ConfigurationManager.install(compositeConfig);
 
-
-        LOGGER.debug(LOGGER.isDebugEnabled() ? "is Configuration installed: " + ConfigurationManager.isConfigurationInstalled() :
-                null);
-
+        LOGGER.debug(
+            LOGGER.isDebugEnabled() ? "is Configuration installed: " + ConfigurationManager.isConfigurationInstalled() : null);
 
     }
 
@@ -55,21 +63,18 @@ public class ArchaiusConfiguration {
 
             LOGGER.debug(LOGGER.isDebugEnabled() ? "Etcd Client created: " + (etcd != null) : null);
 
-            AbstractPollingScheduler scheduler = new FixedDelayPollingScheduler();
             EtcdConfigurationSource etcdConfigurationSource = new EtcdConfigurationSource(etcd, "/hystrix/");
-            DynamicWatchedConfiguration etcdConfiguration = new DynamicWatchedConfiguration(etcdConfigurationSource);
 
-            return etcdConfiguration;
+            return new DynamicWatchedConfiguration(etcdConfigurationSource);
 
         } catch (Exception e) {
-            LOGGER.error("CoresOS ETCD Service not reachable...");
+            LOGGER.error("CoresOS ETCD Service not reachable, Server: " + etcdServerPort, e);
             return null;
         }
     }
 
     /***
      * Create and initials etcd client
-     *
      * @return
      */
     private Etcd createEtcdClient() {

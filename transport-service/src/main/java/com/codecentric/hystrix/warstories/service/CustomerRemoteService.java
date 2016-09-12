@@ -21,7 +21,7 @@ public class CustomerRemoteService {
 
     private static final Log LOGGER = LogFactory.getLog(CustomerRemoteService.class);
 
-    private DynamicStringProperty customerServiceAddress = DynamicPropertyFactory.getInstance()
+    private static final DynamicStringProperty customerServiceAddress = DynamicPropertyFactory.getInstance()
         .getStringProperty("service.address.customer", "http://customer-service:8080/customer/find/accountnumber/");
 
     @HystrixCommand(commandKey = "CustomerClientCmdKey", threadPoolKey = "CustomerClientThreadPool", fallbackMethod = "fallback")
@@ -29,7 +29,8 @@ public class CustomerRemoteService {
         Assert.notNull(accountnumber);
         Assert.hasText(customerServiceAddress.get());
 
-        LOGGER.debug("Calling Connote Remote Service: " + customerServiceAddress.get());
+        LOGGER.debug("Calling Connote Remote Service: " + customerServiceAddress.get() + " Timestamp: "
+            + customerServiceAddress.getChangedTimestamp());
 
         RestTemplate client = new RestTemplate();
         URI uri = URI.create(customerServiceAddress.get() + accountnumber);

@@ -17,7 +17,7 @@
         <jsonpath.version>2.1.0</jsonpath.version>
         <modelmapper.version>0.7.4</modelmapper.version>
         <commons.lang.version>3.3.2</commons.lang.version>
-        <spring.context.version>4.2.1.RELEASE</spring.context.version>
+        <spring.framework.version>4.2.1.RELEASE</spring.framework.version>
         <commons.logging.version>1.2</commons.logging.version>
         <commons.config.version>1.10</commons.config.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -45,7 +45,13 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-context</artifactId>
-                <version>${spring.context.version}</version>
+                <version>${spring.framework.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-beans</artifactId>
+                <version>${spring.framework.version}</version>
             </dependency>
 
             <!-- Netflix and Etcd-->

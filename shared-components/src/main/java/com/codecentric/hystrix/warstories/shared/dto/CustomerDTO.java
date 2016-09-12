@@ -49,4 +49,12 @@ public class CustomerDTO extends FallbackDTO {
         this.name = name;
     }
 
+    @Override public String toString() {
+        final StringBuilder sb = new StringBuilder("CustomerDTO{");
+        sb.append("accountNumber=").append(accountNumber);
+        sb.append(", name='").append(name).append('\'');
+        sb.append(", firstName='").append(firstName).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }

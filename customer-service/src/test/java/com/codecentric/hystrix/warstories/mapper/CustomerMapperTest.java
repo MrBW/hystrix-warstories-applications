@@ -14,6 +14,7 @@ import com.codecentric.hystrix.warstories.mapper.CustomerMapper;
 /**
  * @author Benjamin Wilms (xd98870)
  */
+
 public class CustomerMapperTest {
 
     private CustomerMapper customerMapper;
